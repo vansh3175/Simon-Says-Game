@@ -12,11 +12,14 @@ function randCol(){
     return c;
 }
 function flash(btn){
-    btn.classList.add('flash');
-    setTimeout(function(){
-        btn.classList.remove('flash');
-    },500);
-
+    
+    setTimeout(()=>{
+        btn.classList.add('flash');
+        setTimeout(function(){
+            btn.classList.remove('flash');
+        },200);
+    
+    },300);
 }
 function userFlash(btn){
     btn.classList.add('userFlash');
@@ -37,6 +40,12 @@ function levelUp(){
     game.push(color);
 
 }
+function resetf(){
+    game=[];
+    user=[];
+    started=false;
+    level=0;
+}
 function check(idx){
     if(user[idx]==game[idx]){
         if(game.length==idx+1){
@@ -51,14 +60,8 @@ function check(idx){
         Highest=Math.max(level-1,Highest);
         high.innerHTML=`Highest Score : &nbsp; ${Highest} `;
         h2.innerHTML=`<b> Game Over! Your score was : ${level-1} </b>  <br> Press any key to start again`;
-        game=[];
-        user=[];
-        started=false;
-        level=0;
-        body.classList.add('over');
-        setTimeout(function(){
-            body.classList.remove('over')
-        },1000);
+        resetf();
+        
     }
 
 
@@ -83,6 +86,20 @@ body.addEventListener('keypress',function(){
     }
 })
 
+
+let start=document.querySelector('#start');
+start.addEventListener('click',()=>{
+    if(!started){
+        started = true;
+        levelUp();
+    }
+})
+let reset = document.querySelector('#reset');
+reset.addEventListener('click',()=>{
+    resetf();
+    let h2=document.querySelector('h2');
+    h2.innerText="Press any key to start";
+})
 let allbtn=document.querySelectorAll('.btn');
 for(btn of allbtn){
     btn.addEventListener('click',btnpress);
